@@ -76,7 +76,7 @@
     "defaultTheme": {
         "boxWallpaper": "url(https://i.redd.it/mdcpc4bzko571.jpg)",
         "backgroundImage": "url(https://wallpaperaccess.com/full/771644.jpg)",
-        "icon": "url(https://img1.gratispng.com/20180511/csq/kisspng-tablet-pharmaceutical-drug-capsule-computer-icons-5af633109df532.250236671526084368647.jpg)",
+        "icon": "url(https://cdn-icons-png.flaticon.com/512/5547/5547549.png)",
         "colors": {
             "primary": {
                
@@ -91,8 +91,9 @@
         "backgroundImage": "url(https://images3.alphacoders.com/744/thumb-1920-744829.jpg)",
         "icon": "url(https://cdn-icons-png.flaticon.com/512/2820/2820693.png)",
         "colors": {
-            "primary": {
-                "100" : "#175B02"
+            "primary": {                
+                "100" : "#175B02",
+                "110" : "#FFF"
             },
             "neutrals": {
                 
@@ -105,7 +106,7 @@
         "icon": "url(https://cdn-icons-png.flaticon.com/512/2418/2418809.png)",
         "colors": {
             "primary": {
-                
+                "110" : "#000"
             },
             "neutrals": {
                 
@@ -128,7 +129,7 @@
     "theme5": {
         "boxWalpaper": "url(https://wallpaperaccess.com/full/530057.jpg)",
         "backgroundImage": "url(https://wallpapercave.com/uwp/uwp1022067.jpeg)",
-        "icon": "url(https://i.pinimg.com/564x/e8/0f/88/e80f8828120e3b0a85e01d8cab3341a6.jpg)",
+        "icon": "url(https://cdn1.iconfinder.com/data/icons/landscape-v-2/512/Landscape_Circle_2_512px_00044-512.png)",
         "colors": {
             "primary": {
                
@@ -141,7 +142,7 @@
     "theme6": {
         "boxWallpaper": "url(https://wallpapercave.com/wp/wp7269653.jpg)",
         "backgroundImage": "url(https://www.xtrafondos.com/en/descargar.php?id=3727&resolucion=3840x2160)",
-        "icon": "url(https://www.pikpng.com/pngl/b/572-5723259_icon-icons-cartoons-cartoon-cartoonizer-aesthetic-transparent-tumblr.png)",
+        "icon": "url(https://cdn-icons-png.flaticon.com/512/2162/2162545.png)",
         "colors": {
             "primary": {
                 

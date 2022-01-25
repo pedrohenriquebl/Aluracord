@@ -14,8 +14,7 @@ function Titulo(props) {
             <style jsx>{`
                 ${Tag} {
                     color: ${appConfig.theme.colors.neutrals['000']};
-                    font-size: 24px;
-                    font-weight: 600
+                    font-size: 24px;                    
                 }
             `}</style>
         </>
@@ -29,7 +28,7 @@ export default function PaginaInicial() {
     const [userLocation, setUserLocation] = React.useState('')
     const roteamento = useRouter();
     let [defaultTheme, setDefaulTheme] = React.useState(appConfig.defaultTheme)
-   
+
     function HandleChange(event) {
         setUsername(event.target.value)
 
@@ -45,7 +44,7 @@ export default function PaginaInicial() {
     function changerTheme(theme) {
         setDefaulTheme(defaultTheme = theme)
     }
-    
+
     const imageError = 'https://i.pinimg.com/736x/4d/9c/82/4d9c826f50fd5c6916d1a28877c574a6.jpg'
 
     return (
@@ -98,7 +97,7 @@ export default function PaginaInicial() {
                         }}
                     >
                         <Titulo tag="h2">Boas vindas de volta!</Titulo>
-                        <Text variant="body3" styleSheet={{ marginBottom: '32px', color: defaultTheme.colors.primary[100], fontWeigth:900 }}>
+                        <Text variant="body3" styleSheet={{ marginBottom: '32px', color: defaultTheme.colors.primary[110], fontWeight: 900 }}>
                             {appConfig.name}
                         </Text>
 
