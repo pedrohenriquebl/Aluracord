@@ -167,7 +167,9 @@ function MessageList(props) {
     function handleRemovedMsg(messageId) {
         
         let novaLista = props.mensagens.filter((message) => {
-            if (message.id =! messageId) {
+            if (message.id != messageId) {
+                console.log(message.id)
+                console.log(messageId)
                 return message;
             }    
         })
