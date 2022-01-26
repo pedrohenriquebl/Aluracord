@@ -21,7 +21,7 @@ export default function ChatPage() {
     */
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + 1,
+            id: listaDeMensagens.length + (Math.random() * 100),
             de: 'pedrohenriquebl',
             texto: novaMensagem,
         }
@@ -121,7 +121,7 @@ export default function ChatPage() {
                         <Button
                             onClick={(event) => {
                                 event.preventDefault;
-                                handleNovaMensagem(mensagem);
+                                handleNovaMensagem(mensagem);                                
                             }}
                             label="Enviar"
                             buttonColors={{
@@ -162,17 +162,15 @@ function Header() {
 }
 
 function MessageList(props) {
-    console.log(props.listaDeMensagens);
+    // console.log(props.mensagens)    
 
-    function handleRemovedMsg(messageId){
+    function handleRemovedMsg(messageId) {
         
         let novaLista = props.mensagens.filter((message) => {
-            if(message.id =! messageId) {
-
+            if (message.id =! messageId) {
                 return message;
-            }
+            }    
         })
-
         props.setListaDeMensagens([
             ...novaLista
         ])
@@ -191,8 +189,8 @@ function MessageList(props) {
                 marginBottom: '16px',
             }}
         >
-            {props.mensagens.map((mensagem) => {
-                return (                    
+            {props.mensagens.map((mensagem) => {                
+                return (
                     <Text
                         key={mensagem.id}
                         tag="li"
@@ -224,9 +222,9 @@ function MessageList(props) {
                                 }}
                                 src={`https://github.com/pedrohenriquebl.png`}
                             />
-                            <Text 
-                                styleSheet={{                                   
-                                    
+                            <Text
+                                styleSheet={{
+
                                 }}
                                 tag="strong">
                                 {mensagem.de}
@@ -241,32 +239,33 @@ function MessageList(props) {
                             >
                                 {(new Date().toLocaleDateString())}
                             </Text>
-                            <Button 
-                            onClick={ ()=> {
-                                handleRemovedMsg(mensagem.id)
-                            }}
-                            buttonColors={{
-                                contrastColor: appConfig.theme.colors.neutrals["000"],
-                                mainColor: appConfig.theme.colors.primary[1010],
-                                mainColorLight: appConfig.theme.colors.primary[400],
-                                mainColorStrong: appConfig.theme.colors.primary[1020],
-                            }}
-                            label='x'
-                            styleSheet={{
-                                borderRadius: "50%",
-                                height: "30px",
-                                marginLeft:"90%",
-                                paddingLeft: "20px",
-                                marginRight: "0",
-                                width: "20px",
-                                display: "flex",    
-                                flexDirection: "row",
-                                justifyContent: "flex-end",                            
-                                alignItems: "center",
-                                position: "relative",
-                                top: "-30px",
-                                background: "none"
-                            }}>
+                            <Button     
+                                onClick={ ()=> {
+                                    
+                                    handleRemovedMsg(mensagem.id)
+                                }}                          
+                                buttonColors={{
+                                    contrastColor: appConfig.theme.colors.neutrals["000"],
+                                    mainColor: appConfig.theme.colors.primary[1010],
+                                    mainColorLight: appConfig.theme.colors.primary[400],
+                                    mainColorStrong: appConfig.theme.colors.primary[1020],
+                                }}
+                                label='x'
+                                styleSheet={{
+                                    borderRadius: "50%",
+                                    height: "30px",
+                                    marginLeft: "90%",
+                                    paddingLeft: "20px",
+                                    marginRight: "0",
+                                    width: "20px",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center",
+                                    position: "relative",
+                                    top: "-30px",
+                                    background: "none"
+                                }}>
 
                             </Button>
                         </Box>
