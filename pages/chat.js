@@ -1,38 +1,55 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
-import ThemeChangeButton from '../src/components/ThemeChangeButton';
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5MTQyNSwiZXhwIjoxOTU4ODY3NDI1fQ.hrrZ5TJIrWW9z57am4a2IrmpAKYeJFn4-_pfGYRlk80';
+const SUPABASE_URL = 'https://kaoyvwxqyyjlalmccmah.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
     let [defaultTheme, setDefaulTheme] = React.useState(appConfig.defaultTheme)
     const [mensagem, setMensagem] = React.useState('')
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
 
-    /*
-    Usuário
-    - Usuárioo digita no campo TextArea
-    - Aperta enter para enviar
-    - Tem que adicionar o texto na listagem
+    React.useEffect(() => {
+        supabaseClient
+            .from('mensagens')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({ data }) => {
+                console.log('useeffect', data)
+                setListaDeMensagens(data);
+            });
+    }, [])
 
-    Dev
-    - [X] Campo criado
-    - [X] Vamos usar o onChange usa o useState (ter if para caso seja enter para limpar variavel)
-    - [X] Lista de mensanges
-    */
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaDeMensagens.length + (Math.random() * 100),
+            // id: listaDeMensagens.length + (Math.random() * 100),
             de: 'pedrohenriquebl',
             texto: novaMensagem,
         }
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens
-        ]);
+
+        supabaseClient
+            .from('mensagens')
+            .insert([
+                mensagem
+            ])
+            .then(({ data }) => {
+                console.log('mensagens', data)
+                setListaDeMensagens([
+                    data[0],
+                    ...listaDeMensagens
+                ])
+            });
+
+        // setListaDeMensagens([
+        //     mensagem,
+        //     ...listaDeMensagens
+        // ]);
         setMensagem('');
     }
 
-    // ./Sua lógica vai aqui
     return (
         <Box
             styleSheet={{
@@ -121,7 +138,7 @@ export default function ChatPage() {
                         <Button
                             onClick={(event) => {
                                 event.preventDefault;
-                                handleNovaMensagem(mensagem);                                
+                                handleNovaMensagem(mensagem);
                             }}
                             label="Enviar"
                             buttonColors={{
@@ -161,21 +178,41 @@ function Header() {
     )
 }
 
+
 function MessageList(props) {
-    // console.log(props.mensagens)    
+    // console.log(props.mensagens)   
+    
+    function Profile() {
+        console.log('teste')
+        return (
+            <>
+                <style jsx>
+                    {`
+                    div {                        
+                        widht: 300px;
+                        height: 100px;
+                        background-color: ${appConfig.defaultTheme.colors.primary[100]}
+                        border: 1px solid red;    
+                    }                
+                `}
+                </style>
+                <div>
+                    <p>teste</p>
+                </div>
+            </>
+        );
+    }
 
     function handleRemovedMsg(messageId) {
-        
+
         let novaLista = props.mensagens.filter((message) => {
             if (message.id != messageId) {
-                console.log(message.id)
-                console.log(messageId)
                 return message;
-            }    
+            }
         })
         props.setListaDeMensagens([
             ...novaLista
-        ])
+        ]);
     }
 
     return (
@@ -191,7 +228,7 @@ function MessageList(props) {
                 marginBottom: '16px',
             }}
         >
-            {props.mensagens.map((mensagem) => {                
+            {props.mensagens.map((mensagem) => {
                 return (
                     <Text
                         key={mensagem.id}
@@ -211,6 +248,7 @@ function MessageList(props) {
                             }}
                         >
                             <Image
+                                onMouseOver={Profile}
                                 styleSheet={{
                                     textAlign: "center",
                                     width: '30px',
@@ -222,7 +260,7 @@ function MessageList(props) {
                                     position: "relative",
                                     top: "10px"
                                 }}
-                                src={`https://github.com/pedrohenriquebl.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text
                                 styleSheet={{
@@ -241,11 +279,10 @@ function MessageList(props) {
                             >
                                 {(new Date().toLocaleDateString())}
                             </Text>
-                            <Button     
-                                onClick={ ()=> {
-                                    
+                            <Button
+                                onClick={() => {
                                     handleRemovedMsg(mensagem.id)
-                                }}                          
+                                }}
                                 buttonColors={{
                                     contrastColor: appConfig.theme.colors.neutrals["000"],
                                     mainColor: appConfig.theme.colors.primary[1010],
