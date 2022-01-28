@@ -2,15 +2,28 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
+import { ButtonSendSticker } from '../src/components/ButtonSendsticker';
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzI5MTQyNSwiZXhwIjoxOTU4ODY3NDI1fQ.hrrZ5TJIrWW9z57am4a2IrmpAKYeJFn4-_pfGYRlk80';
 const SUPABASE_URL = 'https://kaoyvwxqyyjlalmccmah.supabase.co';
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
+    const roteamento = useRouter();
+    const usuarioLogado = roteamento.query.username;
     let [defaultTheme, setDefaulTheme] = React.useState(appConfig.defaultTheme)
     const [mensagem, setMensagem] = React.useState('')
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
+
+    function listenRTMsg(addMsg) {
+        return supabaseClient
+            .from('mensagens')
+            .on('INSERT', (response) => {
+                addMsg(response.new);
+            })
+            .subscribe();
+    }
 
     React.useEffect(() => {
         supabaseClient
@@ -21,12 +34,21 @@ export default function ChatPage() {
                 console.log('useeffect', data)
                 setListaDeMensagens(data);
             });
+
+        listenRTMsg((novaMensagem) => {
+            setListaDeMensagens((ListaAtual) => {
+                return [
+                    novaMensagem,
+                    ...ListaAtual,
+                ]
+            })
+        });
     }, [])
 
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
             // id: listaDeMensagens.length + (Math.random() * 100),
-            de: 'pedrohenriquebl',
+            de: usuarioLogado,
             texto: novaMensagem,
         }
 
@@ -36,17 +58,8 @@ export default function ChatPage() {
                 mensagem
             ])
             .then(({ data }) => {
-                console.log('mensagens', data)
-                setListaDeMensagens([
-                    data[0],
-                    ...listaDeMensagens
-                ])
+                // console.log('mensagens', data)
             });
-
-        // setListaDeMensagens([
-        //     mensagem,
-        //     ...listaDeMensagens
-        // ]);
         setMensagem('');
     }
 
@@ -135,6 +148,11 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                handleNovaMensagem(':sticker:' + sticker);
+                            }}
+                        />
                         <Button
                             onClick={(event) => {
                                 event.preventDefault;
@@ -178,30 +196,8 @@ function Header() {
     )
 }
 
-
 function MessageList(props) {
-    // console.log(props.mensagens)   
-    
-    function Profile() {
-        console.log('teste')
-        return (
-            <>
-                <style jsx>
-                    {`
-                    div {                        
-                        widht: 300px;
-                        height: 100px;
-                        background-color: ${appConfig.defaultTheme.colors.primary[100]}
-                        border: 1px solid red;    
-                    }                
-                `}
-                </style>
-                <div>
-                    <p>teste</p>
-                </div>
-            </>
-        );
-    }
+    // console.log(props.mensagens)  
 
     function handleRemovedMsg(messageId) {
 
@@ -245,10 +241,10 @@ function MessageList(props) {
                         <Box
                             styleSheet={{
                                 marginBottom: '8px',
+                                position: "relative",
                             }}
                         >
                             <Image
-                                onMouseOver={Profile}
                                 styleSheet={{
                                     textAlign: "center",
                                     width: '30px',
@@ -308,7 +304,13 @@ function MessageList(props) {
 
                             </Button>
                         </Box>
-                        {mensagem.texto}
+                        {mensagem.texto.startsWith(':sticker:')
+                            ? (
+                                <Image src={mensagem.texto.replace(':sticker:', '')} />
+                            )
+                            : (
+                                mensagem.texto
+                            )}
                     </Text>
                 );
             })}

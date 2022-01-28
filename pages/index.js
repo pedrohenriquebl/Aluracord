@@ -84,12 +84,11 @@ export default function PaginaInicial() {
                         as="form"
                         onSubmit={function (event) {
                             event.preventDefault();
+                            roteamento.push(`/chat?username=${username}`);
                             // Jeito tradicional
                             // window.location.href = '/chat';
 
-                            //Utilizando o hook do useRouter do next
-                            roteamento.push('/chat');
-
+                            //Utilizando o hook do useRouter do next    
                         }}
                         styleSheet={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
