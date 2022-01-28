@@ -132,7 +132,9 @@ export default function ChatPage() {
                             onKeyPress={(event) => {
                                 if (event.key === "Enter") {
                                     event.preventDefault();
-                                    handleNovaMensagem(mensagem);
+                                    if (mensagem != ''){
+                                        handleNovaMensagem(mensagem);
+                                    }                                    
                                 }
                             }}
                             placeholder="Insira sua mensagem aqui..."
@@ -156,7 +158,9 @@ export default function ChatPage() {
                         <Button
                             onClick={(event) => {
                                 event.preventDefault;
-                                handleNovaMensagem(mensagem);
+                                if (mensagem != '' || ' '){
+                                    handleNovaMensagem(mensagem);
+                                }
                             }}
                             label="Enviar"
                             buttonColors={{
